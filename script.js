@@ -1,6 +1,5 @@
-var dayThemeBtn = document.getElementById('day-theme-btn')
-var nightThemeBtn = document.getElementById('night-theme-btn')
-var pgCounter = document.getElementById('pg-counter').value
+var themeBtn = document.getElementById('theme-btn')
+var pgCounter = document.getElementById('pg-counter')
 
 var themeColor = window.localStorage.getItem('themeColor')
 if (!themeColor) {
@@ -8,26 +7,30 @@ if (!themeColor) {
   document.body.setAttribute('class', 'daytheme')
 } else {
   themeColor = window.localStorage.getItem('themeColor')
-  document.body.setAttribute('themeColor', themeColor)
+  document.body.setAttribute('class', themeColor)
 }
 
-dayThemeBtn.addEventListener('click', function () {
-  window.localStorage.setItem('themeColor', 'daytheme')
-  document.body.setAttribute('class', 'daytheme')
-})
-
-nightThemeBtn.addEventListener('click', function () {
-  window.localStorage.setItem('themeColor', 'nighttheme')
-  document.body.setAttribute('class', 'nighttheme')
+themeBtn.addEventListener('click', function () {
+  var themeColor = window.localStorage.getItem('themeColor')
+  if (themeColor === 'daytheme') {
+    window.localStorage.setItem('themeColor', 'nighttheme')
+    document.body.setAttribute('class', 'nighttheme')
+  } else {
+    window.localStorage.setItem('themeColor', 'daytheme')
+    document.body.setAttribute('class', 'daytheme')
+  }
 })
 
 var counterFunction = function () {
-  var visitNumber = parseInt(window.localStorage.getItem('pgCounter')).value
-  if (!visitNumber) {
+  var visitNumber = parseInt(window.localStorage.getItem('pgCounter'))
+  if (isNaN(visitNumber)) {
     visitNumber = 1
     pgCounter = parseInt(window.localStorage.setItem('pgCounter', visitNumber))
+    return visitNumber
   } else {
-    pgCounter = (parseInt(visitNumber) + 1)
+    visitNumber = visitNumber + 1
+    pgCounter = parseInt(window.localStorage.setItem('pgCounter', visitNumber))
+    return visitNumber
   }
 }
 
